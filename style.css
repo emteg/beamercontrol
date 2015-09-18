@@ -1,0 +1,354 @@
+body {
+	font-family: "Arial", sans-serif;
+	background-color: #444;
+}
+
+h1 {
+	color: white;
+	margin-bottom: 0;
+}
+
+h3 {
+    padding: 0;
+	margin: 0;
+	margin-bottom: 0.5em; 
+}
+
+a {
+	color: #394873;
+}
+
+p {
+	margin: 0;
+}
+
+.box {
+	display: inline;
+	float: left;
+	margin-left: 1em;
+	background-color: white;
+	border: 2px solid #A9D941;
+	border-radius: 5px;
+	margin-top: 1em;
+}
+
+.box h2 {
+	background-color: #A9D941;
+	margin-top: 0;
+	padding-left: 2px;
+}
+
+.centerBox {
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+	border: 2px solid #A9D941;
+	border-radius: 5px;
+	margin-top: 1em;
+	width: 22em;
+}
+
+.centerBox h2 {
+	background-color: #A9D941;
+	margin-top: 0;
+	padding-left: 2px;
+}
+
+.box:first-of-type {
+	margin-left: 0;
+}
+
+.boxContent {
+    width: 21em;
+    margin: 1em;
+    display: block;
+}
+
+.boxContentWide {
+    padding: 0.25em;
+    width: 35em;
+    margin: 1em;
+    display: block;
+}
+
+.box form {
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	margin-top: 1em;
+    position: relative;
+    padding: 0.25em;
+}
+
+.centerBox form {
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	margin-top: 1em;
+    position: relative;
+    padding: 0.25em;
+}
+
+.navigation {
+	padding: 0;
+	margin: 1em;
+	list-style-type: none;
+}
+
+.navigation li {
+	margin-bottom: 0.25em;
+}
+
+.playlist {
+	margin: 0;
+    margin-top: 0.25em;
+	padding: 0.25em;
+	list-style-position: inside;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+}
+
+.playlistModulName {
+	display: inline-block;
+	width: 14em;
+}
+
+.playlistButton {
+	width: 1em;
+	margin: 0.1em 0;
+	border-radius: 5px;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	vertical-align: middle;
+}
+
+.playlistButton:hover {
+	color: white;
+	background-color: #A9D941;
+}
+
+.textseiten {
+	padding-left: 0;
+    margin-top: 0.25em;
+}
+
+.textseiten li {
+	margin: 0;
+	padding: 2px;
+	margin-bottom: 0.25em;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	list-style-type: none;
+	position: relative;
+}
+
+.textseiteInhalt {
+	max-width: 21em;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.textseiteAb {
+	display: inline-block;
+	top: 0;
+	vertical-align: top;
+	left: 21.5em;
+	position: absolute;
+	padding: 0 0.25em;
+	margin-top: 2px;
+}
+
+.textseiteBis {
+	display: inline-block;
+	top: 0;
+	vertical-align: top;
+	left: 27em;
+	position: absolute;
+	margin-top: 2px;
+	padding: 0 0.25em;
+}
+
+.textseiteButton {
+	width: 1em;
+	margin: 0;
+    margin-left: 0.5em;
+	border-radius: 5px;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	float: right;
+}
+
+.textseiteButton:hover {
+	color: white;
+	background-color: #A9D941;
+}
+
+input {
+	margin: 0.1em 0;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	display: inline-block;
+	color: black;
+	vertical-align: middle;
+	padding: 2px;
+    height: 1.5em;
+}
+
+input[type=number] {
+	
+}
+
+input[type=submit] {
+	float: right;
+    font-size: 100%;
+    height: 1.5em;
+    padding: 2px;
+}
+
+input[type=submit]:hover {
+	color: black;
+	background-color: #A9D941;
+}
+
+input[type=text] {
+    width: 15em;
+}
+
+input[type=password] {
+	width: 15em;
+}
+
+select {
+	margin: 0.1em 0;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	display: inline-block;
+	color: black;
+	vertical-align: middle;
+	padding: 2px;
+    min-width: 12em;
+}
+
+textarea {
+	font-family: "Arial", Sans-Serif;
+	font-size: 100%;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	height: 6em;
+    display: block;
+    width: 34em;
+}
+
+form p {
+	margin: 0.5em 0;
+	width: auto;
+}
+
+.boxViewButtons {
+    float: right;
+	cursor: pointer;
+}
+
+.boxViewButtons a {
+    text-decoration: none;
+    margin: 0.1em;
+    font-size: 100%;
+    font-weight: normal;
+    padding-top: 0.1em;
+}
+
+.boxViewButtons img {
+    height: inherit;
+    vertical-align: top;
+    height: 20px;
+    margin-top: 3px;
+    
+}
+
+.playlistButton img {
+    height: 16px;
+    margin-top: 2px;
+    margin-bottom: -2px;
+}
+
+.textseiteButton img {
+    height: 16px;
+    margin-top: 2px;
+    margin-bottom: -2px;
+}
+
+.formCaption {
+    display: inline-block;
+    width: 6em;
+}
+
+.events {
+    padding-left: 0;
+    margin: 0;
+}
+
+.events li {
+    margin: 0;
+	padding: 2px;
+	margin-bottom: 0.25em;
+	border: 1px solid #8A8C54;
+	border-radius: 5px;
+	list-style-type: none;
+	position: relative;
+}
+
+.benutzerButton {
+	width: 1em;
+	margin: 0.1em 0;
+	border-radius: 5px;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	vertical-align: middle;
+	float: right;
+}
+
+.benutzerButton:hover {
+	color: white;
+	background-color: #A9D941;
+}
+
+.benutzerButton img {
+    height: 16px;
+    margin-top: 2px;
+    margin-bottom: -2px;
+}
+
+.fehler {
+	background-color: #FF5000;
+	padding: 2px;
+	margin-bottom: 0.25em;
+	border: 1px solid #990000;
+	border-radius: 5px;
+	margin-bottom: 1em;
+}
+
+.erfolg {
+	background-color: #33CC33;
+	padding: 2px;
+	margin-bottom: 0.25em;
+	border: 1px solid #009900;
+	border-radius: 5px;
+	margin-bottom: 1em;
+}
+
+.imgAutoSize {
+	max-width: 6em;
+    max-height: 6em;
+	float: left;
+}
+
+.bildseiteBild {
+	max-width: 6em; 
+	float: left; 
+	max-height: 10em; 
+	margin-right: 0.5em
+}
