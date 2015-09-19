@@ -28,7 +28,7 @@
 				<li><a href="/{$rootDir}" onclick="showBox('textseiten')">Textseiten</a></li>
 				<li><a href="/{$rootDir}" onclick="showBox('bildseiten')">Bildseiten</a></li>
 				<li><a href="/{$rootDir}" onclick="showBox('events')">Zeitplan</a></li>
-        <!--<li><a href="/{$rootDir}module/">Module</a></li>-->
+        <li><a href="/{$rootDir}module/">Module</a></li>
 				<li><a href="/{$rootDir}benutzer/">Benutzer</a></li>
 				<li><a href="/{$rootDir}logout/">Abmelden</a></li>
 			</ul>
