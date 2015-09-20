@@ -1,0 +1,5 @@
+# templates_c Ordner enthaelt temporaere dateien
+templates_c
+
+# config.php muss jeweils manuell vor Ort angepasst werden
+config.php
