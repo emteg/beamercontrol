@@ -10,4 +10,4 @@ Nach dem ersten Auschecken muss das Backend zunächst konfiguriert werden:
 - Im Browser /beamercontrol öffnen (es ist keine Anmeldung erfoderlich)
 - Im Punkt "Benutzer" mindestens einen Benutzer anlegen
 - config.php wieder öffnen und die Zeile $loginErforderlich = false; auskommentieren und speichern.
-- Im Backend anmelden (jetzt mit Passwort) und unter dem Punkt Moduel die zu verwendenen Module installieren.
+- Im Backend anmelden (jetzt mit Passwort) und unter dem Punkt Module die zu verwendenen Module installieren.
