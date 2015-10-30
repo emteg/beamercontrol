@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `bildseite` (
   `Extension` varchar(10) NOT NULL,
   `Beschriftung` text NOT NULL,
   `Layout` enum('Zweispaltig','Mittig') NOT NULL,
-  `ZeigenAb` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ZeigenBis` datetime DEFAULT NULL
+  `ZeigenAb` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ZeigenBis` timestamp DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -110,8 +110,8 @@ CREATE TABLE IF NOT EXISTS `textseite` (
 `Id` int(11) NOT NULL,
   `Inhalt` text NOT NULL,
   `IstAktiv` tinyint(1) NOT NULL DEFAULT '1',
-  `ZeigenAb` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ZeigenBis` datetime DEFAULT NULL
+  `ZeigenAb` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ZeigenBis` timestamp DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -184,40 +184,12 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `bildseite`
+-- Daten für Tabelle `einstellungen`
 --
-ALTER TABLE `bildseite`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT for table `event`
---
-ALTER TABLE `event`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
---
--- AUTO_INCREMENT for table `modul`
---
-ALTER TABLE `modul`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `playlist`
---
-ALTER TABLE `playlist`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
---
--- AUTO_INCREMENT for table `spiel`
---
-ALTER TABLE `spiel`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT for table `textseite`
---
-ALTER TABLE `textseite`
-MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=94;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+
+INSERT INTO `einstellungen` (`Name`, `Wert`) VALUES
+('ModulAnzeigeDauerSekunden', '20');
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
