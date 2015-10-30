@@ -2,7 +2,7 @@
 require_once "../klassen/authentication.class.php";
 require_once "../config.php";
 require_once "../klassen/datenbank.class.php";
-require_once "../libs/smarty/smarty.class.php";
+require_once "../libs/smarty/Smarty.class.php";
 require_once "../klassen/modul.class.php";
 
 $datenbank = new Datenbank();

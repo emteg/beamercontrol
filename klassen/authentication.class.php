@@ -14,7 +14,10 @@
  * Einbinden von config.inc.php die Variable $loginErforderlich auf false gesetzt
  * werden.
  */
-session_save_path("D:\\Programme\\xampp\\htdocs\\c4\\tmp");
+
+// Optional
+//session_save_path("/path/to/session/info");
+
 session_start();
 
 class Session {	
