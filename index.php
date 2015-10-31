@@ -37,7 +37,8 @@ $events = $datenbank->queryArray(
 	
 // Modul-Anzeigedauer
 $einstellung = new TEinstellung();
-$einstellung->read("ModulAnzeigeDauerSekunden", $datenbank);
+$modulAnzeigeDauer = $einstellung->read("ModulAnzeigeDauerSekunden", $datenbank);
+$eventTitel = $einstellung->read("eventTitel", $datenbank);
 
 
 // Boxen
@@ -79,7 +80,8 @@ $smarty->assign("geplanteBildseiten", $geplanteBildseiten);
 
 $smarty->assign("zeitplan", $events);
 
-$smarty->assign("modulAnzeigeDauer", $einstellung->wert);
+$smarty->assign("modulAnzeigeDauer", $modulAnzeigeDauer);
+$smarty->assign("eventTitel", $eventTitel);
 
 $smarty->assign("boxStatusPlaylist", $boxStatusPlaylist);
 $smarty->assign("boxStatusTextseiten", $boxStatusTextseiten);
