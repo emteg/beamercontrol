@@ -70,6 +70,11 @@
                     <input class="number" type="number" name="anzeigedauer" value="{$modulAnzeigeDauer}" min="1"/>
 					<input type="submit" value="Festlegen"/>
                 </form>
+                <form method="post" action="./eventTitelAendern.php">
+                    <h3>Veranstalungstitel</h3>
+                    <input type="text" name="titel" placeholder="Veranstaltungstitel" value="{$eventTitel}"/>
+					<input type="submit" value="Festlegen"/>
+                </form>
             </span>
 		</div>
             
