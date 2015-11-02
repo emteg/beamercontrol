@@ -75,6 +75,12 @@
                     <input type="text" name="titel" placeholder="Veranstaltungstitel" value="{$eventTitel}"/>
                     <input type="submit" value="Festlegen"/>
                 </form>
+                <form method="post" action="./alarmAendern.php">
+                    <h3>Sofortmeldung anzeigen</h3>
+                    <textarea name="alarmText" placeholder="Diese Meldung auf allen Beamern anzeigen" style="width: 20em">{str_replace("<br />", "\n", $alarmText)}</textarea>
+                    <input type="checkbox" name="alarmAnzeigen" {if $alarmAnzeigen === "true"}checked{/if}/> Meldung anzeigen
+                    <input type="submit" value="Festlegen"/>
+                </form>
             </span>
 		</div>
             
