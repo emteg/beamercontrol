@@ -9,7 +9,7 @@ $datenbank = new Datenbank();
 if (isset($_POST["titel"])) {
 	
 	$einstellung = new TEinstellung();
-	$einstellung->update("eventTitel", $_POST["titel"], $datenbank);
+	$einstellung->set("eventTitel", $_POST["titel"], $datenbank);
 }
 
 header("Location: /" . $config["rootDir"]);
