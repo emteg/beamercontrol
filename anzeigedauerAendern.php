@@ -10,7 +10,7 @@ if (isset($_POST["anzeigedauer"]) && is_numeric($_POST["anzeigedauer"]) &&
 	$_POST["anzeigedauer"] > 0) {
 	
 	$einstellung = new TEinstellung();
-	$einstellung->update("ModulAnzeigeDauerSekunden", $_POST["anzeigedauer"], $datenbank);
+	$einstellung->set("ModulAnzeigeDauerSekunden", $_POST["anzeigedauer"], $datenbank);
 }
 
 header("Location: /" . $config["rootDir"]);

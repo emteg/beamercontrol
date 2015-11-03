@@ -32,6 +32,11 @@ class TEinstellung {
 			einstellungen
 		WHERE
 			Name = :name";
+  const SQL_INSERT_OR_UPDATE = "
+    INSERT INTO
+      einstellungen (Name, Wert)
+    VALUES (:name, :wert)
+      ON DUPLICATE KEY UPDATE Wert = VALUES(Wert)";
 			
 	public function create($name, $wert, $datenbank) {
 		try {
@@ -75,7 +80,19 @@ class TEinstellung {
 		}
 		
 	}
-	
+  
+  public function set($name, $wert, $datenbank) {
+    
+    $sql = TEinstellung::SQL_INSERT_OR_UPDATE;
+    $params = Array("name" => $name, "wert" => $wert);
+    
+    $this->name = $name;
+    $this->wert = $wert;
+    
+    return $datenbank->queryDirekt($sql, $params);
+    
+  }
+  
 	public function update($name, $wert, $datenbank) {
 	
 		$sql = TEinstellung::SQL_UPDATE;

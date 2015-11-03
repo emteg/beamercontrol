@@ -11,6 +11,18 @@ require_once "./klassen/bildseite.class.php";
 
 $datenbank = new Datenbank();
 
+// Einstellungen
+$einstellung = new TEinstellung();
+$modulAnzeigeDauer = $einstellung->read("ModulAnzeigeDauerSekunden", $datenbank);
+$eventTitel = $einstellung->read("eventTitel", $datenbank);
+$alarmAnzeigen = $einstellung->read("alarmAnzeigen", $datenbank);
+if ($alarmAnzeigen !== "true") {
+  $alarmAnzeigen = "false";
+  $alarmText = "";
+} else {
+  $alarmText = $einstellung->read("alarmText", $datenbank);
+}
+
 // Playlist
 $playlist = new TPlaylist();
 $module = $playlist->ladePlaylist($datenbank);
@@ -33,12 +45,6 @@ $geplanteBildseiten = $datenbank->queryArray(
 // Zeitplan
 $events = $datenbank->queryArray(
     TEvent::SQL_SELECT_ANSTEHENDE, Array(), new EventFactory());
-	
-	
-// Modul-Anzeigedauer
-$einstellung = new TEinstellung();
-$modulAnzeigeDauer = $einstellung->read("ModulAnzeigeDauerSekunden", $datenbank);
-$eventTitel = $einstellung->read("eventTitel", $datenbank);
 
 
 // Boxen
@@ -82,6 +88,8 @@ $smarty->assign("zeitplan", $events);
 
 $smarty->assign("modulAnzeigeDauer", $modulAnzeigeDauer);
 $smarty->assign("eventTitel", $eventTitel);
+$smarty->assign("alarmAnzeigen", $alarmAnzeigen);
+$smarty->assign("alarmText", $alarmText);
 
 $smarty->assign("boxStatusPlaylist", $boxStatusPlaylist);
 $smarty->assign("boxStatusTextseiten", $boxStatusTextseiten);

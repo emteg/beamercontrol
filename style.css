@@ -213,7 +213,7 @@ input[type=submit]:hover {
 }
 
 input[type=text] {
-    width: 15em;
+  width: 15em;
 }
 
 input[type=password] {
@@ -228,17 +228,17 @@ select {
 	color: black;
 	vertical-align: middle;
 	padding: 2px;
-    min-width: 12em;
+  min-width: 12em;
 }
 
 textarea {
-	font-family: "Arial", Sans-Serif;
-	font-size: 100%;
-	border: 1px solid #8A8C54;
-	border-radius: 5px;
-	height: 6em;
-    display: block;
-    width: 34em;
+  font-family: "Arial", Sans-Serif;
+  font-size: 100%;
+  border: 1px solid #8A8C54;
+  border-radius: 5px;
+  height: 6em;
+  display: block;
+  width: 34em;
 }
 
 form p {
