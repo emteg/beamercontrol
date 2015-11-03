@@ -70,11 +70,6 @@
                     <input class="number" type="number" name="anzeigedauer" value="{$modulAnzeigeDauer}" min="1"/>
                     <input type="submit" value="Festlegen"/>
                 </form>
-                <form method="post" action="./eventTitelAendern.php">
-                    <h3>Veranstalungstitel</h3>
-                    <input type="text" name="titel" placeholder="Veranstaltungstitel" value="{$eventTitel}"/>
-                    <input type="submit" value="Festlegen"/>
-                </form>
                 <form method="post" action="./alarmAendern.php">
                     <h3>Sofortmeldung anzeigen</h3>
                     <textarea name="alarmText" placeholder="Diese Meldung auf allen Beamern anzeigen" style="width: 20em">{str_replace("<br />", "\n", $alarmText)}</textarea>
