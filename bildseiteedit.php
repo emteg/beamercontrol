@@ -2,7 +2,7 @@
 require_once "./klassen/authentication.class.php";
 require_once "./config.php";
 require_once "./klassen/datenbank.class.php";
-require_once "./klassen/Bildseite.class.php";
+require_once "./klassen/bildseite.class.php";
 
 $datenbank = new Datenbank();
 $bildseite = new TBildseite();
