@@ -70,6 +70,20 @@
                     <input class="number" type="number" name="anzeigedauer" value="{$modulAnzeigeDauer}" min="1"/>
                     <input type="submit" value="Festlegen"/>
                 </form>
+                <form method="post" action="./eventAendern.php">
+                    <h3>Grundeinstellungen</h3>
+                    Veranstaltungsname:<br/>
+                    <input type="text" name="name" value="{$event}" placeholder="Name der Veranstaltung"/>
+                    Veranstaltungszeitraum:<br/>
+                    <input type="text" name="datum" value="{$eventDate}" placeholder="Veranstaltungszeitraum"/><br/>
+                    Design:<br/>
+                    <select name="design">
+{foreach $designs as $design}                    
+                        <option value="{$design}" {if $design==$aktDesign}selected{/if}>{$design}</option>
+{/foreach}
+                    </select>
+                    <input type="submit" value="Festlegen"/>
+                </form>
                 <form method="post" action="./alarmAendern.php">
                     <h3>Sofortmeldung anzeigen</h3>
                     <textarea name="alarmText" placeholder="Diese Meldung auf allen Beamern anzeigen" style="width: 20em">{str_replace("<br />", "\n", $alarmText)}</textarea>

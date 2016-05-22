@@ -14,7 +14,9 @@ $datenbank = new Datenbank();
 // Einstellungen
 $einstellung = new TEinstellung();
 $modulAnzeigeDauer = $einstellung->read("ModulAnzeigeDauerSekunden", $datenbank);
-$eventTitel = $einstellung->read("eventTitel", $datenbank);
+$event = $einstellung->read("event", $datenbank);
+$eventDate = $einstellung->read("eventDate", $datenbank);
+$aktDesign = $einstellung->read("design", $datenbank);
 $alarmAnzeigen = $einstellung->read("alarmAnzeigen", $datenbank);
 if ($alarmAnzeigen !== "true") {
   $alarmAnzeigen = "false";
@@ -46,7 +48,9 @@ $geplanteBildseiten = $datenbank->queryArray(
 $events = $datenbank->queryArray(
     TEvent::SQL_SELECT_ANSTEHENDE, Array(), new EventFactory());
 
-
+// Designs
+$designs = designsSuchen($config["beamerDesignsPfad"]);
+    
 // Boxen
 if (isset($_COOKIE["boxStatus_playlist"])) {
 	$boxStatusPlaylist = $_COOKIE["boxStatus_playlist"];
@@ -87,7 +91,10 @@ $smarty->assign("geplanteBildseiten", $geplanteBildseiten);
 $smarty->assign("zeitplan", $events);
 
 $smarty->assign("modulAnzeigeDauer", $modulAnzeigeDauer);
-$smarty->assign("eventTitel", $eventTitel);
+$smarty->assign("event", $event);
+$smarty->assign("eventDate", $eventDate);
+$smarty->assign("designs", $designs);
+$smarty->assign("aktDesign", $aktDesign);
 $smarty->assign("alarmAnzeigen", $alarmAnzeigen);
 $smarty->assign("alarmText", $alarmText);
 
@@ -97,5 +104,30 @@ $smarty->assign("boxStatusBildseiten", $boxStatusBildseiten);
 $smarty->assign("boxStatusEvents", $boxStatusEvents);
 
 $smarty->display("index.tpl");
+
+function designsSuchen($pfad) {
+    $result = Array();
+	$ordner = scandir($pfad);
+	
+	foreach ($ordner as $aktuell) {
+		if (istDesignOrdner($aktuell)) {
+			$result[] = $aktuell;
+		}
+	}
+	
+	return $result;
+}
+
+function istDesignOrdner($ordnerName) {
+
+	if ($ordnerName != '.' && $ordnerName != '..') {
+		$info = pathinfo($ordnerName);
+		
+		return !isset($info["extension"]);
+	}
+	
+	return false;
+	
+}
 
 ?>
