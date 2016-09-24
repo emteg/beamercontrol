@@ -6,6 +6,8 @@ class TBildseite {
 	public $layout = "";
 	public $zeigenAb = "";
 	public $zeigenBis = "";
+
+	const TABLE_VERSION = 1;
 	
 	const SQL_SELECT = "
 		SELECT
@@ -59,6 +61,71 @@ class TBildseite {
 			bildseite
 		WHERE
 			Id = :id";
+
+	const SQL_CREATE_TABLE = "
+		CREATE TABLE IF NOT EXISTS `bildseite` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Extension` varchar(10) NOT NULL,
+			`Beschriftung` text NOT NULL,
+			`Layout` enum('Zweispaltig','Mittig') NOT NULL,
+			`ZeigenAb` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`ZeigenBis` timestamp NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='".self::TABLE_VERSION."'";
+
+	const SQL_TABLE_EXISTS = "
+		SELECT
+			*
+		FROM
+			information_schema.tables
+		WHERE
+			TABLE_SCHEMA = :table_schema AND
+			TABLE_NAME = 'bildseite'";
+
+	public function setupTable($datenbank, $config) {
+		$version = $this->getTableVersion($datenbank, $config);
+		if ($version >= 0) {
+			if ($version < self::TABLE_VERSION) {
+				return $this->migrateTable($datenbank, $config, $version);
+			}
+			return $version;
+		} else {
+			$sql = self::SQL_CREATE_TABLE;
+			$datenbank->queryDirekt($sql);
+			return self::TABLE_VERSION;
+		}
+	}
+
+	public function getTableVersion($datenbank, $config) {
+		$sql = self::SQL_TABLE_EXISTS;
+		$params = Array("table_schema" => $config["datenbankName"]);
+		$result = $datenbank->queryDirektSingle($sql, $params);
+		if ($result) {
+			$version = $result["TABLE_COMMENT"];
+			if ($version = "") {
+				$version = 0;
+			} else {
+				$version = (int)$version;
+			}
+			return $version;
+		}
+		return -1;
+	}
+
+	private function migrateTable($datenbank, $config, $version) {
+		if ($version == 0 && self::TABLE_VERSION == 1) {
+			return $this->migrate0to1($datenbank, $config);
+		} else {
+			die("Migration from version " . $version . " to " . 
+				self::TABLE_VERSION . " does not exist :/");
+		}
+	}
+
+	private function migrate0to1($datenbank, $config) {
+		$sql = "ALTER TABLE bildseite COMMENT = '1'";
+		$datenbank->queryDirekt($sql);
+		return self::TABLE_VERSION;
+	}
 			
 	public function create($datenbank, $extension, $beschriftung, $layout, $zeigenAb = "", $zeigenBis = "") {
 	
@@ -91,7 +158,7 @@ class TBildseite {
 	
 	public function read($id, $datenbank) {
 
-		$sql = TBildseite::SQL_SELECT;
+		$sql = self::SQL_SELECT;
 		$params["id"] = $id;
 		
 		$result = $datenbank->queryDirektSingle($sql, $params);
@@ -114,7 +181,7 @@ class TBildseite {
 			
 		}
 		
-		$datenbank->queryDirekt(TBildseite::SQL_DELETE, Array("id" => $id));	
+		$datenbank->queryDirekt(self::SQL_DELETE, Array("id" => $id));	
 		
 	}
 	

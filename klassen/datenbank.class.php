@@ -27,7 +27,7 @@ class Datenbank {
 				$this->istVerbunden = true;
 				$this->istBereit = true;
 			} else {
-				$this->verbindung = new PDO('mysql:host=localhost;dbname=mysql', $this->benutzer, 
+				$this->verbindung = new PDO('mysql:host=localhost', $this->benutzer, 
 					$this->passwort);
 				$this->istVerbunden = true;
 			}
@@ -54,12 +54,13 @@ class Datenbank {
 		}
 	}
 	
-	public function createDatabase($datenbank) {
+	public function createDatabase($datenbank, $charset = "utf8") {
 		if ($this->istVerbunden) {
 			try {
-				$this->verbindung->query("create database " . $datenbank);
+				$this->verbindung->query("create database " . $datenbank . " CHARACTER SET " . $charset);
 				$this->datenbank = $datenbank;
 				$this->istBereit = true;
+				return true;
 			} catch (PDOException $e) {
 				$this->lastError = $e;
 				$this->istBereit = false;

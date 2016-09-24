@@ -5,6 +5,8 @@ class TEvent {
 	public $beginn = "";
 	public $ende = "";
 	public $kategorie = "";
+
+	const TABLE_VERSION = 1;
 	
 	const SQL_SELECT_ALLE = "
 		SELECT
@@ -61,16 +63,79 @@ class TEvent {
 			event
 		WHERE
 			Id = :id";
+
+	const SQL_CREATE_TABLE = "
+		CREATE TABLE IF NOT EXISTS `event` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Titel` varchar(100) NOT NULL,
+			`Beginn` datetime NOT NULL,
+			`Ende` datetime DEFAULT NULL,
+			`Kategorie` set('Allgemein','SdS') NOT NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='".self::TABLE_VERSION."'";
+	const SQL_TABLE_EXISTS = "
+		SELECT
+			*
+		FROM
+			information_schema.tables
+		WHERE
+			TABLE_SCHEMA = :table_schema AND
+			TABLE_NAME = 'event'";
 			
+	public function setupTable($datenbank, $config) {
+		$version = $this->getTableVersion($datenbank, $config);
+		if ($version >= 0) {
+			if ($version < self::TABLE_VERSION) {
+				return $this->migrateTable($datenbank, $config, $version);
+			}
+			return $version;
+		} else {
+			$sql = self::SQL_CREATE_TABLE;
+			$datenbank->queryDirekt($sql);
+			return self::TABLE_VERSION;
+		}
+	}
+
+	public function getTableVersion($datenbank, $config) {
+		$sql = self::SQL_TABLE_EXISTS;
+		$params = Array("table_schema" => $config["datenbankName"]);
+		$result = $datenbank->queryDirektSingle($sql, $params);
+		if ($result) {
+			$version = $result["TABLE_COMMENT"];
+			if ($version = "") {
+				$version = 0;
+			} else {
+				$version = (int)$version;
+			}
+			return $version;
+		}
+		return -1;
+	}
+
+	private function migrateTable($datenbank, $config, $version) {
+		if ($version == 0 && self::TABLE_VERSION == 1) {
+			return $this->migrate0to1($datenbank, $config);
+		} else {
+			die("Migration from version " . $version . " to " . 
+				self::TABLE_VERSION . " does not exist :/");
+		}
+	}
+
+	private function migrate0to1($datenbank, $config) {
+		$sql = "ALTER TABLE event COMMENT = '1'";
+		$datenbank->queryDirekt($sql);
+		return self::TABLE_VERSION;
+	}
+
 	public function create($titel, $beginn, $ende, $kategorie, $datenbank) {
 	
 		if ($this->kategorieKorrekt($kategorie)) {
 			if ($ende == "") {
-				$sql = TEvent::SQL_INSERT_KEIN_ENDE;
+				$sql = self::SQL_INSERT_KEIN_ENDE;
 				$params = Array("titel" => $titel, "beginn" => $beginn,
 					"kategorie" => $kategorie);
 			} else {
-				$sql = TEvent::SQL_INSERT;
+				$sql = self::SQL_INSERT;
 				$params = Array("titel" => $titel, "beginn" => $beginn, 
 				"ende" => $ende, "kategorie" => $kategorie);
 			}
@@ -92,9 +157,9 @@ class TEvent {
 	
 		if ($this->kategorieKorrekt($kategorie)) {
 			if ($ende == "") {
-				$sql = TEvent::SQL_UPDATE_KEIN_ENDE;
+				$sql = self::SQL_UPDATE_KEIN_ENDE;
 			} else {
-				$sql = TEvent::SQL_UPDATE;
+				$sql = self::SQL_UPDATE;
 			}
 			$params = Array("id" => $id, "titel" => $title, "beginn" => $beginn, 
 				"ende" => $ende, "kategorie" => $kategorie);
@@ -112,7 +177,7 @@ class TEvent {
 	}
 	
 	public function destroy($id, $datenbank) {
-		$datenbank->queryDirekt(TEvent::SQL_DELETE, Array("id" => $id));
+		$datenbank->queryDirekt(self::SQL_DELETE, Array("id" => $id));
 	}
 	
 	private function kategorieKorrekt($kategorie) {

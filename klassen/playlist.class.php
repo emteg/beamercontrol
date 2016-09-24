@@ -5,6 +5,8 @@ class TPlaylist {
 	public $playlistGeladen = false;
 	public $libraryGeladen = false;
 
+	const TABLE_VERSION = 1;
+
 	const SQL_AKTUELLE_PLAYLIST = "
 		SELECT 
 			modul.Id, 
@@ -44,11 +46,73 @@ class TPlaylist {
 		INSERT INTO
 			playlist (ModulId, Nummer)
 		VALUES (:modulid, :nummer)";
-		
+
+	const SQL_CREATE_TABLE = "
+		CREATE TABLE IF NOT EXISTS `playlist` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Titel` varchar(100) NOT NULL,
+			`Beginn` datetime NOT NULL,
+			`Ende` datetime DEFAULT NULL,
+			`Kategorie` set('Allgemein','SdS') NOT NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='".self::TABLE_VERSION."'";
+	const SQL_TABLE_EXISTS = "
+		SELECT
+			*
+		FROM
+			information_schema.tables
+		WHERE
+			TABLE_SCHEMA = :table_schema AND
+			TABLE_NAME = 'playlist'";
+
+	public function setupTable($datenbank, $config) {
+		$version = $this->getTableVersion($datenbank, $config);
+		if ($version >= 0) {
+			if ($version < self::TABLE_VERSION) {
+				return $this->migrateTable($datenbank, $config, $version);
+			}
+			return $version;
+		} else {
+			$sql = self::SQL_CREATE_TABLE;
+			$datenbank->queryDirekt($sql);
+			return self::TABLE_VERSION;
+		}
+	}
+
+	public function getTableVersion($datenbank, $config) {
+		$sql = self::SQL_TABLE_EXISTS;
+		$params = Array("table_schema" => $config["datenbankName"]);
+		$result = $datenbank->queryDirektSingle($sql, $params);
+		if ($result) {
+			$version = $result["TABLE_COMMENT"];
+			if ($version = "") {
+				$version = 0;
+			} else {
+				$version = (int)$version;
+			}
+			return $version;
+		}
+		return -1;
+	}
+
+	private function migrateTable($datenbank, $config, $version) {
+		if ($version == 0 && self::TABLE_VERSION == 1) {
+			return $this->migrate0to1($datenbank, $config);
+		} else {
+			die("Migration from version " . $version . " to " . 
+				self::TABLE_VERSION . " does not exist :/");
+		}
+	}
+
+	private function migrate0to1($datenbank, $config) {
+		$sql = "ALTER TABLE playlist COMMENT = '1'";
+		$datenbank->queryDirekt($sql);
+		return self::TABLE_VERSION;
+	}		
 		
 	public function ladePlaylist($datenbank) {
 	
-		$this->playlist = $datenbank->queryDirektArray(TPlaylist::SQL_AKTUELLE_PLAYLIST);
+		$this->playlist = $datenbank->queryDirektArray(self::SQL_AKTUELLE_PLAYLIST);
 		$this->playlistGeladen = true;
 		return $this->playlist;
 		
@@ -56,7 +120,7 @@ class TPlaylist {
 	
 	public function ladeLibrary($datenbank) {
 	
-		$this->library = $datenbank->queryDirektArray(TPlaylist::SQL_ALLE_MODULE);
+		$this->library = $datenbank->queryDirektArray(self::SQL_ALLE_MODULE);
 		$this->libraryGeladen = true;
 		return $this->library;
 		
@@ -102,7 +166,7 @@ class TPlaylist {
 	
 		if ($this->playlistGeladen) {
 		
-			$datenbank->queryDirekt(TPlaylist::SQL_DELETE, Array("id" => $id));
+			$datenbank->queryDirekt(self::SQL_DELETE, Array("id" => $id));
 			foreach ($this->playlist as $key => $item) {
 				if ($item["playlistId"] == $id) {
 					unset($this->playlist[$key]);
@@ -122,7 +186,7 @@ class TPlaylist {
 		if ($this->playlistGeladen) {
 		
 			$params = Array("modulid" => $id, "nummer" => count($this->playlist) + 1);
-			$datenbank->queryDirekt(TPlaylist::SQL_INSERT, $params);
+			$datenbank->queryDirekt(self::SQL_INSERT, $params);
 		
 		} else {
 			echo "Playlist kann nur mit geladener Playlist geändert werden.";
@@ -132,7 +196,7 @@ class TPlaylist {
 	
 	private function mehrereUpdaten($indizes, $datenbank) {
 	
-		$sql = TPlaylist::SQL_UPDATE_NUMMER;
+		$sql = self::SQL_UPDATE_NUMMER;
 		foreach ($indizes as $index) {
 		
 			$params = Array("nummer" => $this->playlist[$index]["Nummer"],
@@ -145,7 +209,7 @@ class TPlaylist {
 	
 	private function neuNummerieren($datenbank) {
 		
-		$sql = TPlaylist::SQL_UPDATE_NUMMER;
+		$sql = self::SQL_UPDATE_NUMMER;
 		$i = 1;
 		foreach ($this->playlist as $item) {
 			$item["Nummer"] = $i;
