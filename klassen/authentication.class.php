@@ -75,5 +75,5 @@ class Session {
 }
 
 $session = new Session();
-$loginErforderlich = true;
+$config["loginErforderlich"] = true;
 ?>

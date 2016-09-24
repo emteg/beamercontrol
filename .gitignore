@@ -1,4 +1,6 @@
 # templates_c Ordner enthaelt temporaere dateien
 templates_c
-# config.php muss jeweils manuell vor Ort angepasst werden
-config.php
+# created automatically
+current.config.values.php
+# edited manually
+config.values.php

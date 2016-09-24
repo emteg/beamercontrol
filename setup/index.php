@@ -23,6 +23,9 @@ function test() {
 
 	echo "Checking database...<br/>";
 	test_database();
+
+	echo "SUCCESS: Database is ready.<br/>";
+	write_config();
 }
 
 function test_config_file() {
