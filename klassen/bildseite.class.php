@@ -64,7 +64,7 @@ class TBildseite {
 
 	const SQL_CREATE_TABLE = "
 		CREATE TABLE IF NOT EXISTS `bildseite` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Id` int(11) NOT NULL AUTO_INCREMENT,
 			`Extension` varchar(10) NOT NULL,
 			`Beschriftung` text NOT NULL,
 			`Layout` enum('Zweispaltig','Mittig') NOT NULL,
