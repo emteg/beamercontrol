@@ -192,12 +192,40 @@ function test_files() {
 	
 	echo "Checking path to modules...<br/>";
 	if (file_exists($config["beamerModulePfad"])) {
-
+		echo "SUCCESS: modules path is valid.<br/>";
 	} else {
 		echo "ERROR: directory does not exist: " . $config["beamerModulePfad"] . "<br/>";
 		echo "Please edit config.values.php and adjust the value of 'beamerModulePfad'<br/>";
 		die("Please enter an absolute path to /beamer/module.");
 	}
+
+	// designs
+	echo "Checking path to designs...<br/>";
+	if (file_exists($config["beamerDesignsPfad"])) {
+		echo "SUCCESS: designs path is valid.<br/>";
+	} else {
+		echo "ERROR: directory does not exist: " . $config["beamerDesignsPfad"] . "<br/>";
+		echo "Please edit config.values.php and adjust the value of 'beamerDesignsPfad'<br/>";
+		die("Please enter an absolute path to /beamer/designs.");
+	}
+
+	// img_upload
+	echo "Checking picture upload path...<br/>";
+	if (file_exists($config["beamerBilderPfad"])) {
+		echo "SUCCESS: picture upload path is valid.<br/>";
+	} else {
+		echo "WARNING: directory does not exist: " . $config["beamerBilderPfad"] . "<br/>";
+		if (mkdir($config["beamerBilderPfad"])) {
+			echo "SUCCESS: picture upload path has been created.<br/>";
+		} else {
+			echo "ERROR: picture upload directory could not be created in '" . $config["beamerBilderPfad"] . "'<br/>";
+			echo "Please edit config.values.php and adjust the value of 'beamerBilderPfad'<br/>";
+			die("and/or create a directory and enter an absolute path to it in the configuration.");
+		}
+		
+	}
+
+	// write beamer config
 }
 
 test();
