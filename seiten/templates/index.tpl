@@ -223,7 +223,8 @@
                 <form enctype="multipart/form-data" method="post" action="./bildseiteedit.php?action=add">
                     <h3>Bildseite hinzufügen</h3>
 					<span class="formCaption">Bild:</span>
-					<input type="file" name="datei">
+					<input type="file" name="datei"><br/>
+					Max. Dateigröße (php.ini): {ini_get("upload_max_filesize")}
                     <textarea name="beschriftung" placeholder="Anzuzeigender Text"></textarea>
                     <span class="formCaption">Layout:</span>
 					<select name="layout">
