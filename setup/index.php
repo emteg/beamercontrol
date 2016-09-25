@@ -69,8 +69,6 @@ function test_database() {
 	global $config;
 
 	echo "Trying to connect to database...<br/>";
-	echo "User name: " . $config["datenbankBenutzer"] . "<br/>";
-	echo "Password: " . $config["datenbankPasswort"] . "<br/>";
 
 	include "../klassen/datenbank.class.php";
 
