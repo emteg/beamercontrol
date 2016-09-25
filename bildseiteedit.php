@@ -111,7 +111,43 @@ function getExtension() {
 			return false;
 		}
 	} else {
+		handleUploadError($_FILES['datei']['error']);
 		return false;
+	}
+}
+
+function handleUploadError($error) {
+	echo "Upload Error " . $error . ": ";
+	switch ($error) {
+		case 1:
+			echo "UPLOAD_ERR_INI_SIZE.<br/>";
+			echo "The uploaded file exceeds the upload_max_filesize directive in php.ini.<br/>";
+			echo "Current setting: " . ini_get("upload_max_filesize") . ".<br/>";
+			break;
+		case 2:
+			echo "UPLOAD_ERR_FORM_SIZE.<br/>";
+			echo "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.<br/>";
+			break;
+		case 3:
+			echo "UPLOAD_ERR_PARTIAL.<br/>";
+			echo "The uploaded file was only partially uploaded.<br/>";
+			break;
+		case 4:
+			echo "UPLOAD_ERR_NO_FILE.<br/>";
+			echo "No file was uploaded.<br/>";
+			break;
+		case 6:
+			echo "UPLOAD_ERR_NO_TMP_DIR.<br/>";
+			echo "Missing a temporary folder.<br/>";
+			break;
+		case 7:
+			echo "UPLOAD_ERR_CANT_WRITE.<br/>";
+			echo "Failed to write file to disk.<br/>";
+			break;
+		case 8:
+			echo "UPLOAD_ERR_EXTENSION.<br/>";
+			echo "A PHP extension stopped the file upload.<br/>";
+			break;
 	}
 }
 
