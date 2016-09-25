@@ -1,13 +1,29 @@
 <?php
 ini_set("display_errors", "on");
 
-$config_vorlage_file_exists = file_exists("../config.vorlage.php");
-$config_file_exists = file_exists("../config.php");
-
 echo "php-info-beamer Setup<br/><br/>";
 
-$no_redirect = true;
+echo "Checking configuration...<br/>";
+$config_template_exists = file_exists("../config.template.php");
+$config_values_exists = file_exists("../config.values.php");
+
+if (!$config_values_exists) {
+	if ($config_template_exists) {
+		$source = "../config.template.php";
+		$dest = "../config.values.php";
+		copy($source, $dest);
+		echo "SUCCESS: config file created from template.<br/>";
+	} else {
+		die("ERROR: config template file does not exist.<br/>");
+	}
+} else {
+	echo "SUCCESS: config file exists.<br/>";
+}
+
 include "../klassen/authentication.class.php";
+$config["loginErforderlich"] = false;
+include "../config.php";
+
 include "../klassen/einstellung.class.php";
 include "../klassen/user.class.php";
 include "../klassen/modul.class.php";
@@ -15,22 +31,19 @@ include "../klassen/event.class.php";
 include "../klassen/bildseite.class.php";
 include "../klassen/textseite.class.php";
 include "../klassen/playlist.class.php";
-include "../config.php";
 
 function test() {
-	echo "Checking configuration...<br/>";
-	test_config_file();
-
 	echo "Checking database...<br/>";
 	test_database();
+	echo "SUCCESS: Database is ready.<br/>";	
 
-	echo "SUCCESS: Database is ready.<br/>";
-	write_config();
+	echo "Checking files...<br/>";
+	test_files();
 }
 
 function test_config_file() {
-	global $config_vorlage_file_exists;
-	global $config_file_exists;
+	global $config_template_exists;
+
 	if (!$config_file_exists) {
 		echo "File not found: config.php.<br/>";
 		echo "Trying to copy from config.vorlage.php...<br/>";
@@ -88,6 +101,8 @@ function test_database() {
 	echo "Checking database structure...<br/>";
 	test_database_tables($datenbank);
 
+	echo "Checking default values...<br/>";
+	test_defaults($datenbank);
 }
 
 function test_database_tables($datenbank) {
@@ -128,8 +143,61 @@ function test_table($datenbank, $table) {
 
 }
 
-function test_filesystem() {
-	return false;
+function test_defaults($datenbank) {
+	global $config;
+
+	echo "Checking existance of important default values...<br/>";
+	$e = new TEinstellung();
+	if ($e->read("ModulAnzeigeDauerSekunden", $datenbank)) {
+		echo "SUCCESS: value ModulAnzeigeDauerSekunden is set.<br/>";
+	} else {
+		$e->set("ModulAnzeigeDauerSekunden", "20", $datenbank);
+		echo "SUCCESS: value ModulAnzeigeDauerSekunden has been set to 20.<br/>";
+	}
+
+	include "../config.values.php";
+
+	echo "Checking for user accounts for beamercontrol...<br/>";
+	$sql = TUser::SQL_SELECT_COUNT;
+	$userCount = $datenbank->queryDirektSingle($sql);
+	if ($userCount) {
+		$userCount = (int) $userCount["COUNT(*)"];
+		if ($userCount == 0) {
+			echo "WARNING: no user accounts found.<br/>";
+			if ($config["loginErforderlich"]) {
+				echo "ERROR: beamercontrol currently requires a user account to login.<br/>";
+				echo "To disable authentication please edit 'config.values.php':<br/>";
+				echo 'Change value of $config["loginErforderlich"] to "0",<br/>';
+				die("then open /beamercontrol in your browser and create a user account.<br/>");
+			} else {
+				echo "beamercontrol does currently not require login.<br/>";
+				die("To create a user account, please open /beamercontrol in your browser.<br/>");
+			}
+		} else {
+			echo "SUCCESS: " . $userCount . " user accounts present.<br/>";
+			if ($config["loginErforderlich"]) {
+				echo "SUCCESS: login is required.<br/>";
+			} else {
+				echo "WARNING: beamercontrol does currently not require login.<br/>";
+				echo "To enable authentication please edit 'config.values.php':<br/>";
+				echo 'Change value of $config["loginErforderlich"] to "1",<br/>';
+				die("then open /beamercontrol in your browser and login.<br/>");
+			}
+		}
+	}
+}
+
+function test_files() {
+	global $config;
+	
+	echo "Checking path to modules...<br/>";
+	if (file_exists($config["beamerModulePfad"])) {
+
+	} else {
+		echo "ERROR: directory does not exist: " . $config["beamerModulePfad"] . "<br/>";
+		echo "Please edit config.values.php and adjust the value of 'beamerModulePfad'<br/>";
+		die("Please enter an absolute path to /beamer/module.");
+	}
 }
 
 test();

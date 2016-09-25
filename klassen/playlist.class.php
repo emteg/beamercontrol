@@ -50,10 +50,8 @@ class TPlaylist {
 	const SQL_CREATE_TABLE = "
 		CREATE TABLE IF NOT EXISTS `playlist` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
-			`Titel` varchar(100) NOT NULL,
-			`Beginn` datetime NOT NULL,
-			`Ende` datetime DEFAULT NULL,
-			`Kategorie` set('Allgemein','SdS') NOT NULL,
+			`ModulId` int(11) NOT NULL,
+			`Nummer` int(11) NOT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='".self::TABLE_VERSION."'";
 	const SQL_TABLE_EXISTS = "

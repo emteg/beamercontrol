@@ -30,7 +30,6 @@ $playlist = new TPlaylist();
 $module = $playlist->ladePlaylist($datenbank);
 $alleModule = $playlist->ladeLibrary($datenbank);
 
-
 // Textseiten
 $aktuelleTextseiten = $datenbank->queryArray(
 	TTextseite::SQL_SELECT_AKTUELLE, Array(), new TextseiteFactory());	

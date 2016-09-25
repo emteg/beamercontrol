@@ -1,6 +1,6 @@
 <?php
 require_once "../klassen/authentication.class.php";
-$loginErforderlich = false;
+$config["loginErforderlich"] = false;
 require_once "../config.php";
 require_once "../klassen/datenbank.class.php";
 require_once "../klassen/user.class.php";
