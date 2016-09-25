@@ -2,6 +2,7 @@
 ini_set("display_errors", "on");
 
 echo "php-info-beamer Setup<br/><br/>";
+echo "This script checks if all settings are present and correct.<br/>";
 
 echo "Checking configuration...<br/>";
 $config_template_exists = file_exists("../config.template.php");
@@ -39,6 +40,8 @@ function test() {
 
 	echo "Checking files...<br/>";
 	test_files();
+
+	echo "SUCCESS: php-info-beamer is ready.";
 }
 
 function test_config_file() {
@@ -226,6 +229,20 @@ function test_files() {
 	}
 
 	// write beamer config
+	echo "Checking beamer config...<br/>";
+	if (file_exists($config["beamerDirAbs"] . "config.php")) {
+		echo "Config file exists.<br/>";
+	} else {
+		echo "Config file does not exist.<br/>";
+		$source = $config["beamerDirAbs"] . "config.vorlage.php";
+		$dest = $config["beamerDirAbs"] . "config.php";
+		if (copy($source, $dest)) {
+			echo "SUCCESS: config file created from template.<br/>";
+			echo "Notice: you may have to edit /beamer/config.php if you do not use the default paths.<br/>";
+		} else {
+			die("ERROR: failed to copy config file.");
+		}
+	}
 }
 
 test();
