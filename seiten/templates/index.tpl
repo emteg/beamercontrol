@@ -60,7 +60,7 @@
                     <h3>Modul hinzufügen</h3>
                     <select name="modulId">
 {foreach $alleModule as $modul}
-					   <option value="{$modul["id"]}">{$modul["Name"]}</option>
+					   <option value="{$modul["Id"]}">{$modul["Name"]}</option>
 {/foreach}
                     </select>
                     <input type="submit" value="Hinzufügen"/>
