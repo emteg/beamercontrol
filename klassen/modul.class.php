@@ -34,7 +34,7 @@ class TModul {
 
 	const SQL_CREATE_TABLE = "
 		CREATE TABLE IF NOT EXISTS `modul` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Id` int(11) NOT NULL AUTO_INCREMENT,
 			`Name` varchar(100) NOT NULL,
 			`IstAktiv` tinyint(1) NOT NULL,
 			PRIMARY KEY (`id`),
