@@ -100,7 +100,7 @@ class TTextseite {
 
 	const SQL_CREATE_TABLE = "
 		CREATE TABLE IF NOT EXISTS `textseite` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Id` int(11) NOT NULL AUTO_INCREMENT,
 			`Inhalt` text NOT NULL,
 			`IstAktiv` tinyint(1) NOT NULL DEFAULT '1',
 			`ZeigenAb` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
