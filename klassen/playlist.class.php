@@ -49,7 +49,7 @@ class TPlaylist {
 
 	const SQL_CREATE_TABLE = "
 		CREATE TABLE IF NOT EXISTS `playlist` (
-			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`Id` int(11) NOT NULL AUTO_INCREMENT,
 			`ModulId` int(11) NOT NULL,
 			`Nummer` int(11) NOT NULL,
 			PRIMARY KEY (`id`)

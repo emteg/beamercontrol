@@ -109,7 +109,6 @@ function modulDateienVorhanden($pfad) {
 			$result[] = $datei;
 		}
 	}
-	
 	return $result;
 	
 }
@@ -125,20 +124,14 @@ function modulArrayErzeugen($dbModule, $modulDateien) {
 		$record["name"] = $dbModul->name;
 		$record["id"] = $dbModul->id;
 		$record["inDatenbank"] = true;
+
 		
 		foreach ($modulDateien as $name => $datei) {
 			if (strcasecmp($name, $dbModul->name) == 0) {
 				if (isset($datei[0])) {
-					$record["template"] = $datei[0];
+					$record["modul"] = $datei[0];
 				}
-				if (isset($datei[1])) {
-					$record["modul"] = $datei[1];
-				}
-				if (isset($datei[0]) && isset($datei[1])) {
-					$record["istBereit"] = true;
-				} else {
-					$record["istBereit"] = false;
-				}
+				$record["istBereit"] = true;
 				unset($modulDateien[$name]);
 				break;
 			}
@@ -154,16 +147,9 @@ function modulArrayErzeugen($dbModule, $modulDateien) {
 			$record["id"] = 0;
 			$record["inDatenbank"] = false;
 			if (isset($datei[0])) {
-				$record["template"] = $datei[0];
+				$record["modul"] = $datei[0];
 			}
-			if (isset($datei[1])) {
-				$record["modul"] = $datei[1];
-			}
-			if (isset($datei[0]) && isset($datei[1])) {
-				$record["istBereit"] = true;
-			} else {
-				$record["istBereit"] = false;
-			}
+			$record["istBereit"] = true;
 			$result[] = $record;
 		}
 	}
