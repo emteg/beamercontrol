@@ -191,7 +191,7 @@ class EventFactory {
 	public function create($record) {
 		$result = new TEvent();
 		
-		$result->id = $record["Id"];
+		$result->id = $record["id"];
 		$result->titel = $record["Titel"];
 		$result->beginn = $record["Beginn"];
 		$result->ende = $record["Ende"];
